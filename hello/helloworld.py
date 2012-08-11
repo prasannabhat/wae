@@ -1,4 +1,8 @@
 import webapp2
+import cgi
+
+def escape_html(s):
+    return cgi.escape(s, quote = True)
 
 form="""
 <form method="post">
@@ -40,9 +44,9 @@ class MainPage(webapp2.RequestHandler):
   
     def write_form(self, error="",day="",month="",year=""):
         self.response.out.write(form % {"error" : error,
-                                    "day" : day,
-                                    "month" : month,
-                                    "year" : year})
+                                    "day" : escape_html(day),
+                                    "month" : escape_html(month),
+                                    "year" : escape_html(year)})
 
 app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
 
