@@ -6,15 +6,15 @@ form="""
     <br>
     <label>
         Month
-        <input type="text" name="month">
+        <input type="text" name="month" value="%(month)s">
     </label>
     <label>
         Day
-        <input type="text" name="day">
+        <input type="text" name="day" value="%(day)s">
     </label>
     <label>
         Year
-        <input type="text" name="year">
+        <input type="text" name="year" value="%(year)s">
     </label>
     <div style="color: red">%(error)s</div>
     <br><br>
@@ -23,20 +23,26 @@ form="""
 """
 
 class MainPage(webapp2.RequestHandler):
-  def get(self):
-		self.write_form()
-	
-  def post(self):
-		user_month = valid_month(self.request.get('month'))
-		user_day = valid_day(self.request.get('day'))
-		user_year = valid_year(self.request.get('year'))
-		if (user_year and user_month and user_day):
-			self.response.out.write("Thanks..thats a valida day")
-		else:
-			self.write_form("That doesn't look like a valid day")
+    def get(self):
+        self.write_form()
+    
+    def post(self):
+        user_month = self.request.get('month')
+        user_day = self.request.get('day')
+        user_year = self.request.get('year')
+        month = valid_month(user_month)
+        day = valid_day(user_day)
+        year = valid_year(user_year)
+        if (year and month and day):
+            self.response.out.write("Thanks..thats a valid day")
+        else:
+            self.write_form("That doesn't look like a valid day",user_day,user_month,user_year)
   
-  def write_form(self, error=""):
-    self.response.out.write(form % {"error" : error})
+    def write_form(self, error="",day="",month="",year=""):
+        self.response.out.write(form % {"error" : error,
+                                    "day" : day,
+                                    "month" : month,
+                                    "year" : year})
 
 app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
 
@@ -69,10 +75,10 @@ months = ['January',
           'December']
 
 def valid_month(month):
-	month_abbvs = dict((m[:3].lower(),m) for m in months)          
-  	if month:
-	    short_month = month[:3].lower()
-	    return month_abbvs.get(short_month)
+    month_abbvs = dict((m[:3].lower(),m) for m in months)          
+    if month:
+        short_month = month[:3].lower()
+        return month_abbvs.get(short_month)
 
 # print valid_month('jan')        
 # print valid_month('january')
@@ -101,10 +107,10 @@ def valid_month(month):
 #
 
 def valid_day(day):
-  if day and day.isdigit():
-    day = int(day)
-    if (day > 0 and day <= 31):
-      return day
+    if day and day.isdigit():
+        day = int(day)
+        if (day > 0 and day <= 31):
+            return day
 
 
 
@@ -126,10 +132,10 @@ def valid_day(day):
 #
 
 def valid_year(year):
-  if year and year.isdigit():
-    year = int(year)
-    if (year >= 1900 and year <= 2020):
-      return year  
+    if year and year.isdigit():
+        year = int(year)
+        if (year >= 1900 and year <= 2020):
+            return year  
 
 
 # valid_year('0') => None    
