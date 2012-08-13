@@ -1,6 +1,10 @@
-import string_test
+# import string_test
+from string_test import replacer
 
 test = "hello world"
-print test
-test = string_test.replacer(test,['e','l','o'],'?')
-print test
+test = replacer(test,['e','l','o'],'?')
+
+import string 
+alphabet = string.ascii_uppercase
+alphabet = string.ascii_lowercase[2:] + string.ascii_lowercase[:2]
+print alphabet
