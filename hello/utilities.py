@@ -1,41 +1,94 @@
+### Utilities
+# -----------
 # User Instructions
 # 
-# Write a function 'sub1' that, given a 
-# string, embeds that string in 
-# the string: 
-# "I think X is a perfectly normal thing to do in public."
-# where X is replaced by the given 
-# string.
+# Modify the valid_month() function to verify 
+# whether the data a user enters is a valid 
+# month. If the passed in parameter 'month' 
+# is not a valid month, return None. 
+# If 'month' is a valid month, then return 
+# the name of the month with the first letter 
+# capitalized.
 #
 
-given_string = "I think %s is a perfectly normal thing to do in public."
-def sub1(s):
-  ret_val = given_string % s
-  print ret_val
-  return ret_val
+months = ['January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July',
+          'August',
+          'September',
+          'October',
+          'November',
+          'December']
 
+def valid_month(month):
+    month_abbvs = dict((m[:3].lower(),m) for m in months)          
+    if month:
+        short_month = month[:3].lower()
+        return month_abbvs.get(short_month)
 
-sub1("running") 
-# => "I think running is a perfectly normal thing to do in public."    
-sub1("sleeping") 
-# => "I think sleeping is a perfectly normal thing to do in public.
+# print valid_month('jan')        
+# print valid_month('january')
+# print valid_month('ja')
+# print valid_month('janjuyn')
+# print valid_month('123')    
 
+# -----------
 # User Instructions
 # 
-# Write a function 'sub_m' that takes a 
-# name and a nickname, and returns a 
-# string of the following format: 
-# "I'm NICKNAME. My real name is NAME, but my friends call me NICKNAME."
+# Modify the valid_day() function to verify 
+# whether the string a user enters is a valid 
+# day. The valid_day() function takes as 
+# input a String, and returns either a valid 
+# Int or None. If the passed in String is 
+# not a valid day, return None. 
+# If it is a valid day, then return 
+# the day as an Int, not a String. Don't 
+# worry about months of different length. 
+# Assume a day is valid if it is a number 
+# between 1 and 31.
+# Be careful, the input can be any string 
+# at all, you don't have any guarantees 
+# that the user will input a sensible 
+# day.
+#
+
+def valid_day(day):
+    if day and day.isdigit():
+        day = int(day)
+        if (day > 0 and day <= 31):
+            return day
+
+
+
+# print valid_day('0') 
+# print valid_day('1') 
+# print valid_day('33')
+
+# -----------
+# User Instructions
 # 
+# Modify the valid_year() function to verify 
+# whether the string a user enters is a valid 
+# year. If the passed in parameter 'year' 
+# is not a valid year, return None. 
+# If 'year' is a valid year, then return 
+# the year as a number. Assume a year 
+# is valid if it is a number between 1900 and 
+# 2020.
+#
 
-given_string2 = "I'm %(nickname)s. My real name is %(name)s, but my friends call me %(nickname)s."
-def sub_m(name, nickname):
-  str = given_string2 % {"nickname" : nickname , "name" : name}
-  print str
-  return str
-  
-    
-    
+def valid_year(year):
+    if year and year.isdigit():
+        year = int(year)
+        if (year >= 1900 and year <= 2020):
+            return year  
 
-sub_m("Mike", "Goose") 
-# => "I'm Goose. My real name is Mike, but my friends call me Goose."
+
+# valid_year('0') => None    
+# valid_year('-11') => None
+# valid_year('1950') => 1950
+# valid_year('2000') => 2000
