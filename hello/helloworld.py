@@ -38,7 +38,7 @@ class MainPage(webapp2.RequestHandler):
         day = valid_day(user_day)
         year = valid_year(user_year)
         if (year and month and day):
-            self.response.out.write("Thanks..thats a valid day")
+            self.redirect('/thanks')
         else:
             self.write_form("That doesn't look like a valid day",user_day,user_month,user_year)
   
@@ -48,7 +48,11 @@ class MainPage(webapp2.RequestHandler):
                                     "month" : escape_html(month),
                                     "year" : escape_html(year)})
 
-app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
+class ThanksHandler(webapp2.RequestHandler):
+    def get(self):
+        self.response.out.write("Thanks ! that's a totally valid day!")
+
+app = webapp2.WSGIApplication([('/', MainPage),('/thanks', ThanksHandler)], debug=True)
 
 
 
